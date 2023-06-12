@@ -50,8 +50,8 @@ sentry_sdk.init(
 DEBUG = os.getenv('DEBUG')
 
 
-ALLOWED_HOSTS = ['65.0.120.201', '127.0.0.1', os.getenv('PIP')]
-#ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['65.0.120.201', '127.0.0.1', os.getenv('PIP')]
+ALLOWED_HOSTS = ['*']
 
 DEFAULT_APPS = [
     'django.contrib.admin',
@@ -76,6 +76,7 @@ LOCAL_APPS = [
     'customers.apps.CustomersConfig',
     'wishlist.apps.WishlistConfig',
     'newsletter.apps.NewsletterConfig',
+    'api.apps.ApiConfig'
 ]
 
 THIRD_PARTY_APPS = [
@@ -87,6 +88,7 @@ THIRD_PARTY_APPS = [
     'captcha',
     'debug_toolbar',
     'django_celery_results',
+    'rest_framework',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -272,3 +274,11 @@ if 'HEROKU' in os.environ:
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+
+}
