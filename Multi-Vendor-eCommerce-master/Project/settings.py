@@ -9,7 +9,6 @@ Github: https://github.com/hossainchisty
 import os
 from pathlib import Path
 
-
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
@@ -18,7 +17,6 @@ from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()  # take environment variables from .env.
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 STRIPE_PUB_KEY = os.getenv('STRIPE_PUB_KEY')
 
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
-#Sentry, an error monitoring and reporting service
+# Sentry, an error monitoring and reporting service
 sentry_sdk.init(
     dsn=os.getenv('DNS'),
     integrations=[DjangoIntegration()],
@@ -48,7 +46,6 @@ sentry_sdk.init(
 )
 
 DEBUG = os.getenv('DEBUG')
-
 
 # ALLOWED_HOSTS = ['65.0.120.201', '127.0.0.1', os.getenv('PIP')]
 ALLOWED_HOSTS = ['*']
@@ -178,7 +175,6 @@ DATABASES = {
     }
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -194,14 +190,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = os.getenv('TIME_ZONE')
-
+BASE_COUNTRY = os.getenv('BASE_COUNTRY')
 USE_I18N = True
 
-USE_L10N = True
+# USE_L10N = True
 
 USE_TZ = True
 
@@ -266,15 +261,14 @@ SECURE_HSTS_PRELOAD = False
 SECURE_CONTENT_TYPE_NOSNIFF = False
 CSRF_COOKIE_SECURE = False
 
-
 # Activate Django-Heroku.
 if 'HEROKU' in os.environ:
     import django_heroku
+
     django_heroku.settings(locals())
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

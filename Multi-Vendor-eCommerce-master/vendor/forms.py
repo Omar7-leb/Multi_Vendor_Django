@@ -14,20 +14,17 @@ from .models import Vendor
 
 
 class VendorSignUpForm(UserCreationForm):
-    country = CountryField(
-        blank_label='(Select country)',).formfield(null=True)
-    #address = forms.CharField(widget=forms.Textarea)
+    country = CountryField(blank_label='(Select country)').formfield(null=True)
+    address = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}))
     mobile_number = forms.CharField(max_length=17)
     vendor_name = forms.CharField(max_length=255)
     shop_logo = forms.ImageField()
     owner_name = forms.CharField(max_length=255)
     nid_number = forms.CharField(max_length=10)
-    address = forms.CharField(max_length=255, widget=forms.HiddenInput())
-    #latitude = forms.FloatField(widget=forms.HiddenInput())
-    #longitude = forms.FloatField(widget=forms.HiddenInput())
-
-    #captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
-
+    #latitude = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    #longitude = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    latitude = forms.FloatField(required=False)
+    longitude = forms.FloatField(required=False)
     def __init__(self, *args, **kwargs):
         super(VendorSignUpForm, self).__init__(*args, **kwargs)
 
@@ -36,8 +33,10 @@ class VendorSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('owner_name', 'email', 'mobile_number', 'nid_number', 'vendor_name',
-                  'shop_logo', 'country', 'address', 'password1', 'password2')
+        fields = (
+            'owner_name', 'email', 'mobile_number', 'nid_number', 'vendor_name',
+            'shop_logo', 'country', 'address', 'password1', 'password2'
+        )
 
     @transaction.atomic
     def save(self):
@@ -52,10 +51,9 @@ class VendorSignUpForm(UserCreationForm):
         vendor.vendor_name = self.cleaned_data.get('vendor_name')
         vendor.shop_logo = self.cleaned_data.get('shop_logo')
         vendor.country = self.cleaned_data.get('country')
-        #vendor.address = self.cleaned_data.get('address')
+        vendor.address = self.cleaned_data.get('address')
         vendor.latitude = self.cleaned_data.get('latitude')
         vendor.longitude = self.cleaned_data.get('longitude')
-        vendor.address = self.cleaned_data.get('address')
         vendor.save()
         return vendor
 
