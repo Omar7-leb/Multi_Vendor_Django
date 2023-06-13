@@ -50,6 +50,7 @@ def CustomerProfileUpdate(request):
         return render(request, 'customer/customer_profile_edit.html', context)
 
 
+
 def CustomerSignUpView(request):
     ''' Sign up view for new customer account.'''
     if request.method == 'POST':

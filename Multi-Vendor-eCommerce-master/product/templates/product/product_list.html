@@ -1,50 +1,108 @@
 {% load static %}
 {% load my_filters %}
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
-/>
-    {% if messages %} 
+
+
+<style>
+    .single-product {
+  position: relative;
+}
+
+.product-img {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 80%; /* Maintain a square aspect ratio */
+  overflow: hidden; /* Hide overflow to contain absolute positioned elements */
+}
+
+.product-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Maintain image aspect ratio and cover container */
+}
+
+.product-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.single-product:hover .product-overlay {
+  opacity: 1;
+}
+
+.btn-details,
+.btn-wishlist {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: blue;
+}
+
+.btn-wishlist.remove {
+  background-color: #ff0000; /* Use a different color for the remove button */
+}
+
+
+
+
+</style>
+    {% if messages %}
     {% for message in messages %}
     <div class="notification is-success is-toast">{{ message }}</div>
-    {% endfor %} 
+    {% endfor %}
 {% endif %}
 <div class="col-xl-4 col-lg-4 col-md-6">
-    <div class="single-product mb-60">
-        <div class="product-img">
-            {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{product.title}}">
-            {% else %}
-            <img src="{{ product.url }}" alt="{{product.title}}">
-            {% endif %}
-            <div class="new-product">
-               {% if product.is_new %}
-                <span>New</span>
-                {% endif %}
-            </div>
-        </div>
-        <div class="product-caption">
-            <h4><a href="{% url 'product_detail'  product.category.slug product.slug product.id %}">
-                {{product.title|title}}</a></h4>
-            <div class="price">
-                <ul>
-                    <li>${{product.price}}</li>
-                    {% if product.discount %}
-                    <li class="discount">${{product.discount}}</li>
-                    {% endif %}
-                </ul>
-            </div>
-            <br>
-            <a href="{% url 'product_detail' product.category.slug product.slug product.id %}" class="genric-btn primary">See details</a>
-            {% if request.user.is_authenticated and request.user.customer %}
-                {% with customer_id=request.user.customer.id %}
-                    {% if product|wishlist_exists:customer_id %}
-                        <a href="{% url 'add_to_wishlist' product.id %}" class="genric-btn danger-border">Remove from wishlist</a>
-                    {% else %}
-                        <a href="{% url 'add_to_wishlist' product.id %}" class="genric-btn primary-border">Add to wishlist</a>
-                    {% endif %}
-                {% endwith %}
-            {% endif %}
-        </div>
+  <div class="single-product mb-60">
+    <div class="product-img">
+      {% if product.image %}
+      <img src="{{ product.image.url }}" alt="{{ product.title }}">
+      {% else %}
+      <img src="{{ product.url }}" alt="{{ product.title }}">
+      {% endif %}
+      <div class="new-product">
+        {% if product.is_new %}
+        <span>New</span>
+        {% endif %}
+      </div>
+      <div class="product-overlay">
+        <a href="{% url 'product_detail' product.category.slug product.slug product.id %}" class="btn-details">See details</a>
+        {% if request.user.is_authenticated and request.user.customer %}
+        {% with customer_id=request.user.customer.id %}
+        {% if product|wishlist_exists:customer_id %}
+        <a href="{% url 'add_to_wishlist' product.id %}" class="btn-wishlist remove">Remove from wishlist</a>
+        {% else %}
+        <a href="{% url 'add_to_wishlist' product.id %}" class="btn-wishlist">Add to wishlist</a>
+        {% endif %}
+        {% endwith %}
+        {% endif %}
+      </div>
     </div>
+    <div class="product-caption">
+      <h4><a href="{% url 'product_detail' product.category.slug product.slug product.id %}">{{ product.title|title }}</a></h4>
+      <div class="price">
+        <ul>
+          <li>${{ product.price }}</li>
+          {% if product.discount %}
+          <li class="discount">${{ product.discount }}</li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
+

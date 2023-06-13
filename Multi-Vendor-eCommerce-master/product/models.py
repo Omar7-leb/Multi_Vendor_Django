@@ -9,18 +9,29 @@ from vendor.models import Vendor
 from django.http import HttpRequest
 
 
-
 class Category(models.Model):
     """ Category model """
-    title = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='title')
+    name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name')
+
+    # category_image = models.ImageField(upload_to='category_images')
 
     def __str__(self):
-        return self.title
+        return self.name
 
     class Meta:
         verbose_name_plural = 'Categories'
-        ordering = ['title']
+        ordering = ['name']
+
+
+class CategoryOptions(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='options')
+    name = models.CharField(max_length=255)
+
+    # Add other fields as needed
+
+    def __str__(self):
+        return self.name
 
 
 class Product(BaseModel):
@@ -58,14 +69,12 @@ class Product(BaseModel):
     def __str__(self):
         return self.title
 
-
     def wishlist_exist(self, customer_id):
         '''
         Check if the product is in the wishlist
         '''
 
         return self.wishlist.filter(id=customer_id).exists()
-
 
     @property
     def imageURL(self):

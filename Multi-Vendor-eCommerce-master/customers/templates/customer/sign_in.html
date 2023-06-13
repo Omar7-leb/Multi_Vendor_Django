@@ -21,6 +21,9 @@
 <!-- slider Area End-->
 
 <!--================Signed in Area =================-->
+{% if user.is_authenticated %}
+    <p style="color: red; font-size: 20px;">You are already signed in.</p>
+{% else %}
 <section class="login_part section_padding ">
     <div class="container">
         <div class="row align-items-center">
@@ -59,4 +62,5 @@
         </div>
     </div>
 </section>
+{% endif %}
 {% endblock body %}
