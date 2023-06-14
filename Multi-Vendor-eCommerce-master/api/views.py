@@ -53,6 +53,6 @@ class GetCategoryOptions(generics.ListAPIView):
 
 
 class AddCategoryOption(generics.CreateAPIView):
-    queryset = CategoryOptions.objects.all()
+    queryset = CategoryOptions  .objects.all()
     permission_classes = (AllowAny,)
     serializer_class = CategoryOptionsSerializer

@@ -2,7 +2,9 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
+
 # Distribution / packaging
+db.sqlite3
 .Python
 build/
 develop-eggs/
