@@ -19,4 +19,5 @@ urlpatterns = [
     path('review/', include('review.urls')),
     path('newsletter/', include('newsletter.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
+    path('api/', include('api.urls'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

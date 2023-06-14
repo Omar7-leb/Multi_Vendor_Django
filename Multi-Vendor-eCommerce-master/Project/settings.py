@@ -87,6 +87,7 @@ THIRD_PARTY_APPS = [
     'captcha',
     'debug_toolbar',
     'django_celery_results',
+    'rest_framework'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -272,3 +273,9 @@ if 'HEROKU' in os.environ:
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
