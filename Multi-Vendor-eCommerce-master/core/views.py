@@ -3,7 +3,8 @@ from django.db.models import Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_page
-from product.models import Product
+from product.models import Product, Category
+from django.shortcuts import get_object_or_404
 
 from .models import Contact
 
@@ -11,6 +12,39 @@ from .models import Contact
 def home(request):
     products = Product.objects.all()
     return render(request, 'core/home.html', {'products': products})
+
+
+def products(request):
+    sort_option = request.GET.get('sort', None)
+    if sort_option == 'featured-rank':
+        products = Product.objects.filter()
+    elif sort_option == 'price_asc':
+        products = Product.objects.order_by('price')
+    elif sort_option == 'price_desc':
+        products = Product.objects.order_by('-price')
+    elif sort_option == 'review-rank':
+        products = Product.objects.order_by('-is_review')
+    elif sort_option == 'date-desc-rank':
+        products = Product.objects.order_by('-is_new', '-created_at')
+    else:
+        products = Product.objects.all()
+    return render(request, 'core/products.html', {'products': products})
+
+
+def category_products(request, category_id):
+    try:
+        category = Category.objects.get(id=category_id)
+        products = category.product_set.all()
+    except Category.DoesNotExist:
+        category = None
+        products = []
+
+    context = {
+        'category': category,
+        'products': products
+    }
+    return render(request, 'core/category.html', context)
+
 
 
 @cache_page(60 * 60)

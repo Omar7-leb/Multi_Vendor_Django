@@ -1,4 +1,5 @@
 from cart.cart import Cart
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_page
 
@@ -39,7 +40,10 @@ def product_detail(request, category_slug, product_slug, product_id):
 
         if form.is_valid():
             quantity = form.cleaned_data['quantity']
-            cart.add(product_id=products.id, quantity=quantity, update_quantity=False)
+            if quantity == 0:
+                messages.warning(request, 'Please choose a quantity greater than 0.', extra_tags='alert-danger')
+                return redirect('/')
+            cart.add(product_id=products.id, quantity=quantity, update_quantity=True)
             return redirect('cart:cart_list')
     else:
         form = AddToCartForm()

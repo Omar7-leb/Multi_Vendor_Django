@@ -7,7 +7,7 @@
   href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
   rel="stylesheet"
 />
-    {% if messages %} 
+    {% if messages %}
       {% for message in messages %}
         {% if message.tags %}
           <div class="notification is-danger is-toast">
@@ -40,7 +40,7 @@
             <h1 class="capitalize text-4xl font-extrabold">{{ products.title }}</h1>
             <div class="flex">
               <span class="flex items-center">
-               
+
                 {% if products.rating %}
                  <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
@@ -55,7 +55,7 @@
                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
                   </path>
-                 
+
                 </svg>
                 <span class="text-gray-600 ml-3">{{ products.rating }} Reviews</span>
                 {% endif %}
@@ -82,22 +82,42 @@
             <h2 class="text-3xl">${{ products.price }}</h2>
             <p class="text-lg text-gray-900">{{ products.description }}</p>
             <div class="w-full flex-none text-sm flex items-center text-gray-600">
-             
+
               <span class="mr-2 text-purple-900">Sold by {{ products.created_by }}</span>
               <span class="mr-2 text-green-500">In Stock {{ products.countInStock }}</span>
             </div>
+              <div class="filter-options">
+    <form >
+        <select name="color" id="color">
+            <option value="">All Colors</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+        </select>
+
+        <select name="size" id="size">
+            <option value="">All Sizes</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+        </select>
+
+       <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+
+    </form>
+</div>
             <div class="flex items-center gap-4 my-5 cursor-pointer ">
             <form method="POST" action=".">
-                    {% csrf_token %}
+                {% csrf_token %}
                   <div class="field has-addons">
                       <div class="control">
-                          <input type="number" name="quantity" value="1" class="input" min="1">
+                          <input type="number" name="quantity" value="0" class="input" min="0">
                       </div>
-                      
+
                       <div class="bg-blue-600 px-5 py-2 text-white rounded-lg w-2/4 text-center">
                       <button>Add to Cart</button></div>
                   </div>
-            </form>                
+            </form>
                 <a href="{% url 'add_to_wishlist' products.id %}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400" viewBox="0 0 20 20"
               fill="currentColor">
@@ -130,6 +150,7 @@
                         </a>
                     </h3>
                 </div>
+            </article>
             </article>
         {% endfor %}
         </section>
