@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
 from vendor.forms import VendorSignUpForm
 from vendor.utils import service
+import os
 
 
 def VendorSignUpView(request):
@@ -21,4 +22,6 @@ def VendorSignUpView(request):
             return redirect('vendor:root_path')
     else:
         form = VendorSignUpForm()
-    return render(request, 'vendor/sign_up.html', {'form': form})
+    google_maps_api_key = os.environ.get('GOOGLE_MAPS_API_KEY')
+    context = {'form': form, 'GOOGLE_MAPS_API_KEY': google_maps_api_key}
+    return render(request, 'vendor/sign_up.html', context)
