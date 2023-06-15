@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for product in products %}
+  {% if product.is_new %}
+    <div class="col-xl-4 col-lg-6">
+      <div class="single-category mb-30">
+        <div class="category-img">
+          <a href="{% url 'category_products' product.category.id %}">
+            <img src="{{ product.image.url }}" alt="" />
+          </a>
+          <div class="category-caption">
+            <h2>{{ product.title }}</h2>
+            <span class="best"><a href="#">Best New Deals</a></span>
+            <span class="collection">New Collection</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
+
+</body>
+</html>

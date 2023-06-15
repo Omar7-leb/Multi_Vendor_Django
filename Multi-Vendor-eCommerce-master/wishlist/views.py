@@ -6,7 +6,7 @@ from django.views.decorators.cache import cache_page
 from product.models import Product
 
 
-#@cache_page(60 * 5)
+# @cache_page(60 * 5)
 @customer_required
 def product_wishlist(request):
     ''' Display the products in the wishlist '''
@@ -30,3 +30,4 @@ def add_to_wishlist(request, product_id):
         messages.success(
             request, f'{product.title} was added to your wishlist!')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+

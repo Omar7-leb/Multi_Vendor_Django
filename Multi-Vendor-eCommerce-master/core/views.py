@@ -14,6 +14,11 @@ def home(request):
     return render(request, 'core/home.html', {'products': products})
 
 
+def latest(request):
+    products = Product.objects.all()
+    return render(request, 'core/latest.html', {'products': products})
+
+
 def products(request):
     sort_option = request.GET.get('sort', None)
     if sort_option == 'featured-rank':
@@ -44,7 +49,6 @@ def category_products(request, category_id):
         'products': products
     }
     return render(request, 'core/category.html', context)
-
 
 
 @cache_page(60 * 60)
