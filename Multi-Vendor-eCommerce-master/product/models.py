@@ -24,16 +24,6 @@ class Category(models.Model):
         ordering = ['name']
 
 
-class CategoryOptions(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='options')
-    name = models.CharField(max_length=255)
-
-    # Add other fields as needed
-
-    def __str__(self):
-        return self.name
-
-
 class Product(BaseModel):
     """ Product model """
     title = models.CharField(max_length=100)
@@ -61,7 +51,7 @@ class Product(BaseModel):
     countInStock = models.IntegerField(null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created_by = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, related_name="customer", on_delete=models.CASCADE, null=True)
+    # customer = models.ForeignKey(Customer, related_name="customer", on_delete=models.CASCADE, null=True)
     wishlist = models.ManyToManyField(Customer)
 
     tags = TaggableManager()
@@ -86,3 +76,20 @@ class Product(BaseModel):
 
     class Meta:
         verbose_name_plural = 'Products'
+
+
+class CategoryOptions(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='options')
+    name = models.CharField(max_length=255)
+
+    # Add other fields as needed
+
+    def __str__(self):
+        return self.name
+
+
+class CategoryProductOptions(models.Model):
+    category_option = models.ForeignKey(CategoryOptions, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    value = models.TextField(max_length=30)
+

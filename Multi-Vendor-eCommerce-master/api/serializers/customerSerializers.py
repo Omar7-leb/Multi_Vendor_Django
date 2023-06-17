@@ -5,6 +5,9 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 
 from customers.models import *
 
+
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
