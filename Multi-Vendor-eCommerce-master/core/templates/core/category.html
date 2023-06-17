@@ -13,7 +13,7 @@ body {
 
 h1 {
   text-align: center;
-  color: #333;
+  color: blue;
 }
 
 ul {
@@ -120,7 +120,7 @@ p.no-products {
     </style>
 </head>
 <body>
-    <h1>Products in Category "{{ category.name }}"</h1>
+    <h1>{{ category.name }}</h1>
     {% if products %}
         <ul>
             {% for product in products %}

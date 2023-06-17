@@ -9,5 +9,6 @@ urlpatterns = [
     path('product', views.search, name='search'),
     path('products', views.products, name='products'),
     path('category/<int:category_id>/', views.category_products, name='category_products'),
+    path('latest', views.latest, name='latest'),
 
 ]
