@@ -14,6 +14,7 @@ from .serializers.addProductSerializers import *
 from rest_framework import status
 from customers.models import Customer
 from product.models import Product, Category, CategoryOptions, CategoryProductOptions
+from order.models import  Order
 
 # Create your views here.
 class RegisterCustomerView(generics.CreateAPIView):
@@ -41,11 +42,11 @@ class GetVendorProductsView(generics.ListAPIView):
         vendor_id = self.kwargs["vendor_id"]
         return Product.objects.filter(created_by=vendor_id)
 
-class GetProductDetails(generics.ListAPIView):
+class GetProductDetails(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ProductDetailsSerializer
     def get_queryset(self):
-        product_id = self.kwargs["product_id"]
+        product_id = self.kwargs["pk"]
         return Product.objects.filter(id=product_id)
 
 
@@ -77,3 +78,22 @@ class AddCategoryProductOptions(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class AddOrder(generics.CreateAPIView):
+    queryset = Order.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = OrderSerializer
+
+
+class AddToWishList(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = AddWishListSerializer
+
+class GetWishList(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ProductSimpleSerializer
+
+    def get_queryset(self):
+        customer_id = self.kwargs["customer_id"]
+        return  Product.objects.filter(wishlist=customer_id)

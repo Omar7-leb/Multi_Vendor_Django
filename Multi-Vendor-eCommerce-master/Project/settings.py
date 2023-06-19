@@ -76,6 +76,8 @@ LOCAL_APPS = [
     'customers.apps.CustomersConfig',
     'wishlist.apps.WishlistConfig',
     'newsletter.apps.NewsletterConfig',
+    'chat.apps.ChatConfig',
+    'elasticsearchdjgo',
 ]
 
 THIRD_PARTY_APPS = [
@@ -89,6 +91,7 @@ THIRD_PARTY_APPS = [
     'django_celery_results',
     'rest_framework',
     'corsheaders',
+    'django_elasticsearch_dsl'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -283,3 +286,9 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
