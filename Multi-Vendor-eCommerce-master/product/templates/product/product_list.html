@@ -1,18 +1,12 @@
 {% load static %}
 {% load my_filters %}
 
-
 <style>
-    .single-product {
-  position: relative;
-}
-
 .product-img {
   position: relative;
   width: 100%;
-  height: 0;
-  padding-bottom: 80%; /* Maintain a square aspect ratio */
-  overflow: hidden; /* Hide overflow to contain absolute positioned elements */
+  padding-bottom: 40%; /* Adjust the padding-bottom value as needed for the desired size */
+  overflow: hidden;
 }
 
 .product-img img {
@@ -21,7 +15,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Maintain image aspect ratio and cover container */
+  object-fit: contain; /* Update object-fit property to contain */
 }
 
 .product-overlay {
@@ -50,22 +44,20 @@
   text-align: center;
   text-decoration: none;
   color: #fff;
-  background-color: blue;
+  background: linear-gradient(to bottom, #333333, #000000);
 }
 
 .btn-wishlist.remove {
-  background-color: #ff0000; /* Use a different color for the remove button */
+  background-color: #ff0000;
 }
-
-
-
-
 </style>
-    {% if messages %}
-    {% for message in messages %}
-    <div class="notification is-success is-toast">{{ message }}</div>
-    {% endfor %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="notification is-success is-toast">{{ message }}</div>
+{% endfor %}
 {% endif %}
+
 <div class="col-xl-4 col-lg-4 col-md-6">
   <div class="single-product mb-60">
     <div class="product-img">
@@ -74,11 +66,6 @@
       {% else %}
       <img src="{{ product.url }}" alt="{{ product.title }}">
       {% endif %}
-      <div class="new-product">
-        {% if product.is_new %}
-        <span>New</span>
-        {% endif %}
-      </div>
       <div class="product-overlay">
         <a href="{% url 'product_detail' product.category.slug product.slug product.id %}" class="btn-details">See details</a>
         {% if request.user.is_authenticated and request.user.customer %}
@@ -105,4 +92,3 @@
     </div>
   </div>
 </div>
-
