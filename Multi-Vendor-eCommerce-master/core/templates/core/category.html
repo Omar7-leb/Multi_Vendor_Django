@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 <head>
 {% load static %}
@@ -122,6 +122,50 @@ p.no-products {
 <body>
     <h1>{{ category.name }}</h1>
     {% if products %}
+     <div class="col-xl-8 col-lg-7 col-md-7">
+          <div class="properties__button f-right">
+            <!--Nav Button  -->
+            <form method="GET" action="/category/{{ category.id }}">
+            <span class="a-dropdown-container"><label for="sort-select" class="a-native-dropdown"></label> <select name="sort" onchange="this.form.submit()" id="sort-select" autocomplete="off"  tabindex="0" data-action="a-dropdown-select" class="a-native-dropdown a-declarative" aria-pressed="False">
+
+        <option value="" {% if not request.GET.sort %}selected{% endif %}>Sort by:</option>
+
+        <option value="featured-rank" {% if request.GET.sort == 'featured-rank' %}selected{% endif %}>Featured</option>
+
+        <option  value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+
+        <option  value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+
+        <option  value="review-rank" {% if request.GET.sort == 'review-rank' %}selected{% endif %}>Avg. Customer Review</option>
+
+        <option  value="date-desc-rank" {% if request.GET.sort == 'date-desc-rank' %}selected{% endif %}>Newest Arrivals</option>
+
+        <option  value="exact-aware-popularity-rank" {% if request.GET.sort == 'exact-aware-popularity-rank' %}selected{% endif %}>Best Sellers</option>
+
+</select>
+            </span>
+            </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var selectElement = document.getElementById("sort-select");
+        var selectedOption = "{{ request.GET.sort }}";
+        if (selectedOption) {
+            selectElement.value = selectedOption;
+        }
+    });
+
+    function handleCategoryChange(selectElement) {
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var category = selectedOption.value;
+
+        // Redirect to the category page based on the selected option value
+        window.location.href = '/category/' + category;
+    }
+</script>
+            <!--End Nav Button  -->
+          </div>
+        </div>
         <ul>
             {% for product in products %}
                 <li>
@@ -149,5 +193,9 @@ p.no-products {
     {% else %}
         <p>No products available in this category.</p>
     {% endif %}
+<div class="text-center mt-4">
+  <a href="/" class="btn btn-primary">Back to Home</a>
+</div>
+
 </body>
 </html>

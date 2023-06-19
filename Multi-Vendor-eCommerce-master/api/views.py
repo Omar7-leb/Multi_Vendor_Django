@@ -41,11 +41,11 @@ class GetVendorProductsView(generics.ListAPIView):
         vendor_id = self.kwargs["vendor_id"]
         return Product.objects.filter(created_by=vendor_id)
 
-class GetProductDetails(generics.ListAPIView):
+class GetProductDetails(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ProductDetailsSerializer
     def get_queryset(self):
-        product_id = self.kwargs["product_id"]
+        product_id = self.kwargs["pk"]
         return Product.objects.filter(id=product_id)
 
 

@@ -37,17 +37,27 @@ def products(request):
 
 
 def category_products(request, category_id):
-    try:
-        category = Category.objects.get(id=category_id)
-        products = category.product_set.all()
-    except Category.DoesNotExist:
-        category = None
-        products = []
+    category = Category.objects.get(id=category_id)
+
+    sort_option = request.GET.get('sort', None)
+    if sort_option == 'featured-rank':
+        products = Product.objects.filter(category=category)
+    elif sort_option == 'price_asc':
+        products = Product.objects.filter(category=category).order_by('price')
+    elif sort_option == 'price_desc':
+        products = Product.objects.filter(category=category).order_by('-price')
+    elif sort_option == 'review-rank':
+        products = Product.objects.filter(category=category).order_by('-is_review')
+    elif sort_option == 'date-desc-rank':
+        products = Product.objects.filter(category=category).order_by('-is_new', '-created_at')
+    else:
+        products = Product.objects.filter(category=category)
 
     context = {
         'category': category,
-        'products': products
+        'products': products,
     }
+
     return render(request, 'core/category.html', context)
 
 

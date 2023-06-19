@@ -5,7 +5,7 @@ class ProductSimpleSerializer(serializers.ModelSerializer):
     created_by = serializers.CharField(source='created_by.vendor_name')
     class Meta:
         model = Product
-        fields = ["title", "description", "price", "discount", "image", "rating", "created_by"]
+        fields = ["title", "description", "price", "discount", "image", "rating", "created_by","id"]
 
 
 class ProductDetailsSerializer(serializers.ModelSerializer):
