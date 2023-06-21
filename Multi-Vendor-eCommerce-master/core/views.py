@@ -1,10 +1,17 @@
 from django.contrib import messages
-from django.db.models import Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_page
 from product.models import Product, Category
+from vendor.models import Vendor
 from django.shortcuts import get_object_or_404
+
+from elasticsearchdjgo.search import lookup
+from elasticsearchdjgo.documents import ProductDocument
+
+from elasticsearch import Elasticsearch
+from elasticsearch_dsl import Search
+from elasticsearch_dsl import Q
 
 from .models import Contact
 
@@ -20,20 +27,85 @@ def latest(request):
 
 
 def products(request):
-    sort_option = request.GET.get('sort', None)
-    if sort_option == 'featured-rank':
-        products = Product.objects.filter()
-    elif sort_option == 'price_asc':
-        products = Product.objects.order_by('price')
-    elif sort_option == 'price_desc':
-        products = Product.objects.order_by('-price')
-    elif sort_option == 'review-rank':
-        products = Product.objects.order_by('-is_review')
-    elif sort_option == 'date-desc-rank':
-        products = Product.objects.order_by('-is_new', '-created_at')
-    else:
-        products = Product.objects.all()
-    return render(request, 'core/products.html', {'products': products})
+    categories = Category.objects.all()
+    vendors = Vendor.objects.all()
+
+    products = []
+    q = []
+
+    client = Elasticsearch()
+
+    category = request.GET.get('category')
+    min_price = request.GET.get("min")
+    max_price = request.GET.get("max")
+    vendor = request.GET.get("vendor")
+    available = request.GET.get("available")
+
+    if category != "None" and category is not None:
+        q.append(Q(
+            'multi_match',
+            query=category,
+            fields=[
+                'category.name'
+            ])
+        )
+
+    if vendor != "None" and vendor is not None:
+        q.append(Q(
+            'multi_match',
+            query=vendor,
+            fields=[
+                'created_by.vendor_name'
+            ])
+        )
+
+    if max_price:
+        q.append(Q('range', price={'lte': max_price}))
+
+    if min_price:
+        q.append(Q('range', price={"gte": min_price}))
+
+    if available == "on":
+        q.append(Q('match', available=True))
+
+    if not q:
+        q.append(Q('match_all'))
+
+    final_q = Q(
+        'bool',
+        must= q
+    )
+    s = Search().using(client).query(final_q)
+
+    response = s.execute()
+
+    for hit in response:
+        data = {
+            "id": hit.id,
+            "title": hit.title,
+            "description": hit.description,
+            "created_by": hit.created_by.vendor_name,
+            "image": hit.image,
+            "price": hit.price
+
+        }
+        products.append(data)
+
+    # sort_option = request.GET.get('sort', None)
+    # if sort_option == 'featured-rank':
+    #     products = Product.objects.filter()
+    # elif sort_option == 'price_asc':
+    #     products = Product.objects.order_by('price')
+    # elif sort_option == 'price_desc':
+    #     products = Product.objects.order_by('-price')
+    # elif sort_option == 'review-rank':
+    #     products = Product.objects.order_by('-is_review')
+    # elif sort_option == 'date-desc-rank':
+    #     products = Product.objects.order_by('-is_new', '-created_at')
+    # else:
+    #     products = Product.objects.all()
+
+    return render(request, 'core/products.html', {'products': products, 'categories':categories, 'vendors':vendors})
 
 
 def category_products(request, category_id):
@@ -60,8 +132,6 @@ def category_products(request, category_id):
 
     return render(request, 'core/category.html', context)
 
-
-@cache_page(60 * 60)
 def search_api(request):
     ''' Search API for autocomplete '''
     queryset = request.GET.get('query')
@@ -86,13 +156,12 @@ def search_api(request):
         raise Http404
 
 
-@cache_page(60 * 60)
+
 def search(request):
     ''' redirect search result  '''
     queryset = request.GET.get('query')
     if queryset:
-        products = Product.objects.filter(Q(title__icontains=queryset) | Q(
-            slug__icontains=queryset) | Q(description__icontains=queryset))
+        products = lookup(query = queryset)
         return render(request, 'core/search.html', {'results': products})
     else:
         raise Http404

@@ -54,6 +54,7 @@ ALLOWED_HOSTS = ['65.0.120.201', '127.0.0.1', os.getenv('PIP')]
 #ALLOWED_HOSTS = ['*']
 
 DEFAULT_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,7 +78,7 @@ LOCAL_APPS = [
     'wishlist.apps.WishlistConfig',
     'newsletter.apps.NewsletterConfig',
     'chat.apps.ChatConfig',
-    'elasticsearchdjgo',
+    'elasticsearchdjgo.apps.ElasticsearchdjgoConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -91,7 +92,8 @@ THIRD_PARTY_APPS = [
     'django_celery_results',
     'rest_framework',
     'corsheaders',
-    'django_elasticsearch_dsl'
+    'django_elasticsearch_dsl',
+
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -292,3 +294,7 @@ ELASTICSEARCH_DSL={
         'hosts': 'localhost:9200'
     },
 }
+
+# Project/settings.py
+# Daphne
+ASGI_APPLICATION = "Project.asgi.application"

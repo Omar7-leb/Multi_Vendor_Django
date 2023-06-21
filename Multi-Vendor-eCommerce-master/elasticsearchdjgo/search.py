@@ -25,7 +25,9 @@ def lookup(query, index='products', fields=['title', 'description']):
             "id": hit.id,
             "title": hit.title,
             "description": hit.description,
-            "created_by": hit.created_by.vendor_name
+            "created_by": hit.created_by.vendor_name,
+            "image":hit.image,
+            "price":hit.price
 
         }
         q_results.append(data)

@@ -10,6 +10,14 @@ class ProductDocument(Document):
     created_by = fields.ObjectField(properties={
         'vendor_name': fields.TextField()
     })
+
+    category = fields.ObjectField(properties={
+        'name':fields.TextField()
+    })
+
+    wishlist = fields.NestedField(properties={
+        'id': fields.IntegerField()
+    })
     class Index:
         name = 'products'
         settings = {'number_of_shards': 1,
