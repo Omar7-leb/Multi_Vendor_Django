@@ -5,4 +5,6 @@ from .views import *
 
 urlpatterns = [
     path("", index, name="index"),
+    # path("<str:room_name>/", room, name="room"),
+    path("text_vendor/<int:id>/", text_vendor)
 ]
