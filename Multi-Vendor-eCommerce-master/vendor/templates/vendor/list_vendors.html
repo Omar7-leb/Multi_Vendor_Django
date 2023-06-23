@@ -1,0 +1,62 @@
+{% extends 'core/_base.html' %}
+{% block body %}
+    <style>
+        .vendor-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .vendor-item {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .vendor-name {
+            font-weight: bold;
+        }
+
+        .vendor-mobile {
+            color: #888;
+        }
+
+        .vendor-logo {
+            max-width: 100px;
+        }
+          .vendor-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .vendor-button {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 4px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+
+    <h1>Vendor List</h1>
+
+    <ul class="vendor-list">
+        {% for vendor in vendors %}
+            <li class="vendor-item">
+                 <div class="vendor-logo">
+                    <img src="{{ vendor.shop_logo.url}}" alt="Shop Logo">
+                </div>
+                <div class="vendor-name">{{ vendor.vendor_name }}</div>
+                <div class="vendor-mobile">{{ vendor.mobile_number }}</div>
+                 <div class="vendor-buttons">
+                    <a href="/vendor/vendor_products/{{ vendor.id }}" class="vendor-button">List of Products</a>
+                    <a href="{% url 'products'  %}" class="vendor-button">Chat</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

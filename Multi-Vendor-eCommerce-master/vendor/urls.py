@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from .views import home_views, product_views, sign_in_views, sign_up_views
+from .views import home_views, product_views, sign_in_views, sign_up_views , vendor_list , vendor_products
 
 app_name = 'vendor'
 
@@ -20,4 +20,6 @@ urlpatterns = [
     # Product management urls
     path('add-product', product_views.create_product_view, name='add_product'),
     path('edit/<int:product_id>', product_views.edit_product_view, name='edit_product'),
+    path('list_vendors',vendor_list.vendor_list, name='list_vendors'),
+    path('vendor_products/<int:vendor_id>', vendor_products.vendor_products, name='vendor_products')
 ]

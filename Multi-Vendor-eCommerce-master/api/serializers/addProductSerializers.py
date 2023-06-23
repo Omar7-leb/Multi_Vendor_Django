@@ -21,7 +21,7 @@ class AddProductSerializer(serializers.ModelSerializer):
     # category_options = CategoryProductOptionsSerializer(many=True, write_only=True)
     class Meta:
         model = Product
-        fields = ["id","title", "description", "price", "image", "countInStock","created_by", "category"]
+        fields = ["id","title", "description", "price", "discount", "image", "is_new",  "countInStock","created_by", "category"]
                   # "category_options"]
 
     # def create(self, validated_data):

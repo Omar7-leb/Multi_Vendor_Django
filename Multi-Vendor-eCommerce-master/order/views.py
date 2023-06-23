@@ -91,7 +91,7 @@ def order_complete(request):
 
 
 @customer_required
-@cache_page(60 * 60)
+# @cache_page(60 * 60)
 def order_details(request, order_id):
     ''' customer purchased order details. '''
     order = Order.objects.get(id=order_id)

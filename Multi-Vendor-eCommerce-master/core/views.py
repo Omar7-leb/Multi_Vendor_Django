@@ -61,7 +61,7 @@ def category_products(request, category_id):
     return render(request, 'core/category.html', context)
 
 
-@cache_page(60 * 60)
+# @cache_page(60 * 60)
 def search_api(request):
     ''' Search API for autocomplete '''
     queryset = request.GET.get('query')
@@ -86,7 +86,7 @@ def search_api(request):
         raise Http404
 
 
-@cache_page(60 * 60)
+# @cache_page(60 * 60)
 def search(request):
     ''' redirect search result  '''
     queryset = request.GET.get('query')
@@ -117,3 +117,4 @@ def contact(request):
         return redirect('contact')
 
     return render(request, 'core/contact.html')
+

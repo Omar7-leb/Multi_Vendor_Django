@@ -47,7 +47,7 @@
                         <p class="">{{ product.title }}</p>
                     </div>
                     <p class="pt-1 text-gray-900">£{{product.price}}</p>
-                    <a href="{% url 'add_to_wishlist' product.id %}" class="genric-btn primary">Add to cart</a>
+                    <a href="{% url 'product_detail' product.category.slug product.slug product.id %}" class="genric-btn primary">See Details</a>
                     <br>
                     <a href="{% url 'add_to_wishlist' product.id %}" class="genric-btn primary-border">Remove</a>
                 </a>

@@ -54,6 +54,7 @@ ALLOWED_HOSTS = ['65.0.120.201', '127.0.0.1', os.getenv('PIP')]
 #ALLOWED_HOSTS = ['*']
 
 DEFAULT_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
