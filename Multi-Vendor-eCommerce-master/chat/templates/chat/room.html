@@ -28,7 +28,7 @@
           <div class="card-body" >
               <div id="chat-log" class=overflow-auto"  style=" height: calc(90vh - 110px); overflow-y: scroll;">
                 {% for message in messages %}
-                    {% if message.sender.id == customer  %}
+                    {% if message.sender.email == customer  %}
                        <div class="d-flex flex-row justify-content-end mb-4">
                         <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
                         <p class="small mb-0">{{message.content}}</p>
@@ -64,10 +64,13 @@
 
 
     {{ room_name|json_script:"room-name" }}
-    <script>
-        const sender = {{ customer }};
-        const receiver = {{ vendor }};
+    {{ customer|json_script:"customer" }}
+    {{ vendor|json_script:"vendor" }}
 
+    <script>
+
+        const sender = JSON.parse(document.getElementById('customer').textContent);
+        const receiver = JSON.parse(document.getElementById('vendor').textContent);
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
         const chatSocket = new WebSocket(
@@ -78,6 +81,8 @@
             + '/'
         );
 
+        console.log(chatSocket)
+
         chatSocket.onmessage = function(e) {
 
             const data = JSON.parse(e.data);
@@ -87,6 +92,13 @@
                         '<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">'+
                         `<p class="small mb-0">${data.message}</p>`+
                         '</div>'+
+                        '</div>'
+            }
+            else{
+                new_message = '<div class="d-flex flex-row justify-content-start mb-4">'+
+                            '<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">'+
+                                `<p class="small mb-0">${data.message}</p>`+
+                           ' </div>'+
                         '</div>'
             }
             document.querySelector('#chat-log').insertAdjacentHTML( 'beforeend', new_message );

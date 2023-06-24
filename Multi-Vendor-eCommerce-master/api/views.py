@@ -136,10 +136,23 @@ class GetRoomsView(generics.ListAPIView):
     def get_queryset(self):
         vendor_id = self.kwargs["pk"]
         rooms = Message.objects.filter(Q(receiver=vendor_id) | Q(sender=vendor_id)).values('room_name').distinct()
+        print(rooms)
         result = []
-        for room in rooms:
-            result.append(Message.objects.filter(room_name = room["room_name"]).first())
 
+        for room in rooms:
+            data = {}
+            last_message = Message.objects.filter(room_name=room["room_name"]).latest("timestamp")
+            data["last_message"] = last_message.content
+            data["room_name"] = last_message.room_name
+            if last_message.sender.is_customer:
+                data["customer"] = last_message.sender.email
+            else:
+                data["customer"] = last_message.receiver.email
+
+            data["timestamp"] = last_message.timestamp
+
+            result.append(data)
+        print(result)
         return result
 
 

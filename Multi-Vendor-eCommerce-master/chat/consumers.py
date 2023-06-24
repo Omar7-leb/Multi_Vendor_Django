@@ -11,8 +11,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def create_chat(self, msg, sender, receiver, room_name):
-        sender = User.objects.get(id = sender)
-        receiver = User.objects.get(id = receiver)
+        sender = User.objects.get(email = sender)
+        receiver = User.objects.get(email = receiver)
         Message.objects.create(sender=sender, receiver=receiver, content=msg, room_name=room_name)
 
     async def connect(self):
