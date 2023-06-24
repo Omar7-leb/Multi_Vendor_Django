@@ -1,10 +1,11 @@
 {% extends 'core/_base.html' %}
 {% block title %}Home {% endblock %}
 {% load static %}
+{% load tailwind_filters %}
 {% block body %}
 <html>
 <head>
-<style>
+    <style>
    .a-dropdown-container {
             position: relative;
             display: inline-block;
@@ -40,52 +41,50 @@
             color: #333;
           }
 
-</style>
-<link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
-/>
+
+    </style>
 </head>
 <body>
-  <select onchange="handleCategoryChange(this)" aria-describedby="searchDropdownDescription" class="nav-search-dropdown searchSelect nav-progressive-attrubute nav-progressive-search-dropdown" data-nav-digest="k+fyIAyB82R9jVEmroQ0OWwSW3A=" data-nav-selected="0" id="searchDropdownBox" name="url" style="display: block; top: 2.5px;" tabindex="0" title="Search in">
-    <option selected="selected" value="1">Electronique</option>
-    <option value="2">Fashion</option>
-    <!-- Add more options for other categories -->
-</select>
-  <section class="All-product-area padding-bottom">
+
+
+{% include 'core/filters.html' %}
+
+<section class="All-product-area padding-bottom">
     <div class="container">
-      <div class="row product-btn d-flex justify-content-end align-items-end">
-        <!-- Section Tittle -->
-        <div class="col-xl-4 col-lg-5 col-md-5">
-          <div class="section-tittle mb-30">
-            <h2>Products</h2>
-          </div>
-        </div>
-        <div class="col-xl-8 col-lg-7 col-md-7">
-          <div class="properties__button f-right">
-            <!--Nav Button  -->
-            <form method="GET" action="{% url 'products' %}">
-            <span class="a-dropdown-container"><label for="sort-select" class="a-native-dropdown"></label> <select name="sort" onchange="this.form.submit()" id="sort-select" autocomplete="off"  tabindex="0" data-action="a-dropdown-select" class="a-native-dropdown a-declarative" aria-pressed="False">
+        <div class="row product-btn d-flex justify-content-end align-items-end">
+            <!-- Section Tittle -->
+            <div class="col-xl-4 col-lg-5 col-md-5">
+                <div class="section-tittle mb-30">
+                    <h2>Products</h2>
+                </div>
+            </div>
+            <div class="col-xl-8 col-lg-7 col-md-7">
+                <div class="properties__button f-right">
+                    <!--Nav Button  -->
+                    <form method="GET" action="{% url 'products' %}">
+                        <span class="a-dropdown-container"><label for="sort-select" class="a-native-dropdown"></label> <select
+                                name="sort" onchange="this.form.submit()" id="sort-select" autocomplete="off" tabindex="0"
+                                data-action="a-dropdown-select" class="a-native-dropdown a-declarative" aria-pressed="False">
 
-        <option value="" {% if not request.GET.sort %}selected{% endif %}>Sort by:</option>
+                            <option value="" {% if not request.GET.sort %}selected{% endif %}>Sort by:</option>
 
-        <option value="featured-rank" {% if request.GET.sort == 'featured-rank' %}selected{% endif %}>Featured</option>
+                            <option value="featured-rank" {% if request.GET.sort == 'featured-rank' %}selected{% endif %}>Featured</option>
 
-        <option  value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                            <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
 
-        <option  value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                            <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
 
-        <option  value="review-rank" {% if request.GET.sort == 'review-rank' %}selected{% endif %}>Avg. Customer Review</option>
+                            <option value="review-rank" {% if request.GET.sort == 'review-rank' %}selected{% endif %}>Avg. Customer Review</option>
 
-        <option  value="date-desc-rank" {% if request.GET.sort == 'date-desc-rank' %}selected{% endif %}>Newest Arrivals</option>
+                            <option value="date-desc-rank" {% if request.GET.sort == 'date-desc-rank' %}selected{% endif %}>Newest Arrivals</option>
 
-        <option  value="exact-aware-popularity-rank" {% if request.GET.sort == 'exact-aware-popularity-rank' %}selected{% endif %}>Best Sellers</option>
+                            <option value="exact-aware-popularity-rank" {% if request.GET.sort == 'exact-aware-popularity-rank' %}selected{% endif %}>Best Sellers</option>
 
-</select>
-            </span>
-            </form>
+                        </select>
+                        </span>
+                    </form>
 
-<script>
+                    <script>
     document.addEventListener("DOMContentLoaded", function() {
         var selectElement = document.getElementById("sort-select");
         var selectedOption = "{{ request.GET.sort }}";
@@ -101,30 +100,31 @@
         // Redirect to the category page based on the selected option value
         window.location.href = '/category/' + category;
     }
-</script>
-            <!--End Nav Button  -->
-          </div>
+
+                    </script>
+                    <!--End Nav Button  -->
+                </div>
+            </div>
         </div>
-      </div>
-      <!-- Nav Card -->
-      <div class="tab-content" id="nav-tabContent">
-        <!-- card one -->
-        <div
-          class="tab-pane fade show active"
-          id="nav-home"
-          role="tabpanel"
-          aria-labelledby="nav-home-tab"
-        >
-          <div class="row">
-            {% for product in products %}
-              {% include 'product/product_list.html' %}
-            {% endfor %}
-          </div>
+        <!-- Nav Card -->
+        <div class="tab-content" id="nav-tabContent">
+            <!-- card one -->
+            <div
+                    class="tab-pane fade show active"
+                    id="nav-home"
+                    role="tabpanel"
+                    aria-labelledby="nav-home-tab"
+            >
+                <div class="row">
+                    {% for product in products %}
+                    {% include 'product/product_list.html' %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-      </div>
-      <!-- End Nav Card -->
+        <!-- End Nav Card -->
     </div>
-  </section>
+</section>
 
 {% endblock %}
 </body>

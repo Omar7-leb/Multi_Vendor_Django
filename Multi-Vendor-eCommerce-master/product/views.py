@@ -7,7 +7,6 @@ from .forms import AddToCartForm
 from .models import Product
 
 
-@cache_page(60 * 5)
 def product_detail(request, category_slug, product_slug, product_id):
     '''	Product detail & add to cart view '''
     products = Product.objects.get(category__slug=category_slug, slug=product_slug, pk=product_id)
