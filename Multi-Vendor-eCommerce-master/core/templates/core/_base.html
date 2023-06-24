@@ -129,7 +129,7 @@
                                                     <i class="fas fa-search special-tag"></i>
                                                 </div>
 
-                                                
+
                                                 <ul class="autocomplete-result-list"></ul>
                                             </div>
                                             </form>
@@ -204,7 +204,6 @@
 
 		<!-- Scrollup, nice-select, sticky -->
         <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
-        <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
 		<script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
         
         <!-- contact js -->
@@ -239,7 +238,7 @@
                 },
                     renderResult: (result, props) => {
                             console.log(props)
-                    
+
                             let group = ''
                             if (result.index % 3 === 0) {
                                 group = `<li class="group">Group</li>`

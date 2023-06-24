@@ -1,10 +1,12 @@
 import threading
 
+import googlemaps as googlemaps
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 import requests
+import os
 
 
 class EmailThread(threading.Thread):
@@ -40,31 +42,11 @@ def send_welcome_mail(request, user):
 
 
 
-# def geocode_address(address):
-#     api_key = 'your-api-key'  # Replace with your Google Maps API key
-#     url = f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={api_key}'
-#
-#     response = requests.get(url)
-#     data = response.json()
-#
-#     if data['status'] == 'OK':
-#         location = data['results'][0]['geometry']['location']
-#         latitude = location['lat']
-#         longitude = location['lng']
-#         return latitude, longitude
-#
-#     return None, None
-
-# def geocode_address(address):
-#     # https: // geocode.maps.co /
-#     url = f'https://geocode.maps.co/search?q={address}'
-#
-#     response = requests.get(url)
-#     data = response.json()
-#
-#     if data and 'lat' in data[0] and 'lon' in data[0]:
-#         latitude = float(data[0]['lat'])
-#         longitude = float(data[0]['lon'])
-#         return latitude, longitude
-#
-#     return None, None
+google_maps_api_key = os.environ.get('GOOGLE_MAPS_API_KEY')
+gmaps = googlemaps.Client(key=google_maps_api_key)
+def get_coordinates(country):
+    result = gmaps.geocode(country)
+    if result:
+        location = result[0]['geometry']['location']
+        return location['lat'], location['lng']
+    return None

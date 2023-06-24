@@ -14,19 +14,19 @@ class Order(models.Model):
     place = models.CharField(max_length=250, null=True)
     phone = models.CharField(max_length=250, null=True)
     paid_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    total_price = models.DecimalField(max_digits=6, decimal_places=2)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
 
     isPaid = models.BooleanField(default=False)
-    paid_date = models.DateTimeField()
+    paid_date = models.DateTimeField(null=True)
 
     isDelivered = models.BooleanField(default=False)
-    delivered_date = models.DateTimeField()
+    delivered_date = models.DateTimeField(null=True)
 
     isCancelled = models.BooleanField(default=False)
     isReturn = models.BooleanField(default=False)
 
     order_created = models.DateTimeField(auto_now_add=True)
-    customer = models.ManyToManyField(Customer)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, default=1)
 
     STATUS = (
         ("Processing", "Processing"),
