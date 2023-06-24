@@ -1,28 +1,53 @@
-<!DOCTYPE html>
+{% extends 'core/_base.html' %}
+{% block body %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .category-img {
+            position: relative;
+        }
+
+        .category-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            color: #fff;
+        }
+
+        .category-caption h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .category-caption .best {
+            font-size: 14px;
+        }
+
+        .category-caption .collection {
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-{% for product in products %}
-  {% if product.is_new %}
-    <div class="col-xl-4 col-lg-6">
-      <div class="single-category mb-30">
-        <div class="category-img">
-          <a href="{% url 'category_products' product.category.id %}">
-            <img src="{{ product.image.url }}" alt="" />
-          </a>
-          <div class="category-caption">
-            <h2>{{ product.title }}</h2>
-            <span class="best"><a href="#">Best New Deals</a></span>
-            <span class="collection">New Collection</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
-{% endfor %}
 
+           <div class="row">
+            {% for product in products %}
+            {% if product.is_new %}
+            {% include 'product/product_list.html' %}
+            {% endif %}
+            {% endfor %}
+        </div>
+
+
+    <!-- Add Bootstrap JS (optional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
 </body>
 </html>
