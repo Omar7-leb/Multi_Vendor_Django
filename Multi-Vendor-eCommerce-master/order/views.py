@@ -43,17 +43,9 @@ def checkout(request):
     ''' customer order checkout form payment method. '''
     cart = Cart(request)
     if request.method == 'POST':
-        form = CheckoutForm(request.POST)
+        form = CheckoutForm(request.POST,user=request.user)
         if form.is_valid():
-            stripe.api_key = settings.STRIPE_SECRET_KEY
-
-            stripe_token = form.cleaned_data['stripe_token']
             try:
-                charge = stripe.Charge.create(amount=int(cart.get_total_price() * 100),
-                                              currency='usd',
-                                              description='Example charge',
-                                              source=stripe_token)
-
                 first_name = form.cleaned_data['first_name']
                 last_name = form.cleaned_data['last_name']
                 email = form.cleaned_data['email']
@@ -67,26 +59,27 @@ def checkout(request):
                 order.isPaid = True
 
                 # order confirmation email to customer
-                send_order_confirmation_mail.delay(order.id)
-                return redirect('order:order_complete')
+                #send_order_confirmation_mail.delay(order.id)
+                return redirect('order:order_complete',order_id=order.id)
             except Exception as error:
                 print(f'{error=}')
                 messages.error(request, 'Somethings went wrong!')
         else:
             messages.error(request, 'Invalid form!')
     else:
-        form = CheckoutForm()
-    return render(request, 'order/checkout.html', {'form': form, 'stripe_pub_key': settings.STRIPE_PUB_KEY, })
+        form = CheckoutForm(user=request.user)
+    return render(request, 'order/checkout.html', {'form': form})
 
 
 @customer_required
 @cache_page(60 * 60)
-def order_complete(request):
+def order_complete(request,order_id):
     ''' customer ordered complete details.'''
     for item in Cart(request):
         print(item['product'].customer)
-    completed_order = Order.objects.filter(customer=request.user.customer, isPaid=True)
-    order_item = OrderItem.objects.filter(customer=request.user.customer)
+    completed_order = Order.objects.get(id=order_id)
+    print(completed_order.first_name)
+    order_item = OrderItem.objects.filter(order=order_id)
     return render(request, 'order/confirmation.html', {'orders': completed_order, 'order_items': order_item})
 
 

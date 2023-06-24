@@ -51,7 +51,7 @@ class Product(BaseModel):
     countInStock = models.IntegerField(null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created_by = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-    # customer = models.ForeignKey(Customer, related_name="customer", on_delete=models.CASCADE, null=True)
+    customer = models.ForeignKey(Customer, related_name="customer", on_delete=models.CASCADE, null=True)
     wishlist = models.ManyToManyField(Customer)
 
     tags = TaggableManager()

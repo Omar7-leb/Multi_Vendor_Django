@@ -4,7 +4,7 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.shortcuts import redirect, render
-from order.models import OrderItem
+from order.models import OrderItem, Order
 
 from .decorators import customer_required
 from .forms import CustomerSignUpForm, CustomerUpdateForm
@@ -22,12 +22,12 @@ def customerWishlistAndFollowedStore(request):
 @customer_required
 def CustomerProfile(request):
     ''' customer profile '''
-
-    order = OrderItem.objects.filter(order__customer=request.user.customer)
+    orders = Order.objects.filter(order__customer=request.user.customer)
+    # order = OrderItem.objects.filter(order__customer=request.user.customer)
 
     context = {
         'customer': request.user.customer,
-        'orders': order,
+        'orders': orders,
     }
 
     return render(request, 'customer/customer_profile.html', context)

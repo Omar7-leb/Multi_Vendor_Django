@@ -23,27 +23,35 @@
 <!-- slider Area End-->
 {% if cart %}
 <!--================ confirmation part start =================-->
-{% for item in cart %}
+
 <section class="confirmation_part section_padding">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
         <div class="confirmation_tittle">
-          <span>Thank you. Your order has been received.</span>
+          <span style="font-size: 24px;">Thank you. Your order has been received.</span>
         </div>
       </div>
-       {% for item in order_items %}
+
       <div class="col-lg-6 col-lx-4">
         <div class="single_confirmation_details">
           <h4>order info</h4>
           <ul>
             <li>
-              <p>Full Name</p>
-              <span>: {{ get_user_full_name }}</span>
+              <p>First name</p>
+              <span>: {{ orders.first_name }}</span>
             </li> 
             <li>
-              <p>order number</p>
-              <span>: 60235</span>
+              <p>Last name</p>
+              <span>: {{ orders.last_name }}</span>
+            </li>
+            <li>
+              <p>Phone</p>
+              <span>: {{ orders.phone }}</span>
+            </li>
+            <li>
+              <p>Email</p>
+              <span>: {{ orders.email }}</span>
             </li>
             <li>
               <p>data</p>
@@ -63,40 +71,22 @@
           <h4>Billing Address</h4>
           <ul>
             <li>
-              <p>Street</p>
-              <span>: 56/8</span>
+              <p>Address</p>
+              <span>: {{orders.address}}</span>
             </li>
             <li>
-              <p>country</p>
-              <span>: {{ item.customer.country }}</span>
+              <p>Zip code</p>
+              <span>: {{ orders.zipcode}}</span>
             </li>
             <li>
-              <p>postcode</p>
-              <span>: {{ item.customer.address }}</span>
+              <p>Place</p>
+              <span>: {{ orders.place}}</span>
             </li>
           </ul>
         </div>
       </div>
-      <div class="col-lg-6 col-lx-4">
-        <div class="single_confirmation_details">
-          <h4>shipping Address</h4>
-          <ul>
-            <li>
-              <p>Street</p>
-              <span>: 56/8</span>
-            </li>
-            <li>
-              <p>country</p>
-              <span>: {{ item.customer.country }}</span>
-            </li>
-            <li>
-              <p>postcode</p>
-              <span>: 36952</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    {% endfor %}
+
+
     </div>
     <div class="row">
       <div class="col-lg-12">
@@ -111,11 +101,13 @@
               </tr>
             </thead>
             <tbody>
+            {% for item in order_items %}
               <tr>
                 <th colspan="2"><span>{{ item.product.title }}</span></th>
                 <th>x{{ item.quantity }}</th>
-                <th><span>${{ item.total_price }}</span></th>
+                <th><span>${{ item.get_total_item_price}}</span></th>
               </tr>
+            {% endfor %}
               <tr>
                 <th colspan="3">total</th>
                 <th><span>${{ cart.get_total_price }}</span></th>
@@ -128,7 +120,7 @@
     </div>
   </div>
 </section>
-{% endfor %}
+
 {% else %}
 <div class="container mt-6 pt-8">
   <div class="notification is-link">
