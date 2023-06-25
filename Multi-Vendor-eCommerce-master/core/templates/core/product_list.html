@@ -70,7 +70,7 @@
 
         {% if request.user.is_authenticated and request.user.customer %}
         {% with customer_id=request.user.customer.id %}
-        {% if product|wishlist_exists:customer_id %}
+        {% if customer_id in product.wishlist %}
         <a href="{% url 'add_to_wishlist' product.id %}" class="btn-wishlist remove">Remove from wishlist</a>
         {% else %}
         <a href="{% url 'add_to_wishlist' product.id %}" class="btn-wishlist">Add to wishlist</a>

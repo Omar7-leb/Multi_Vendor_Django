@@ -46,6 +46,7 @@
 </head>
 <body>
 
+<div >
 
 {% include 'core/filters.html' %}
 
@@ -61,28 +62,6 @@
             <div class="col-xl-8 col-lg-7 col-md-7">
                 <div class="properties__button f-right">
                     <!--Nav Button  -->
-                    <form method="GET" action="{% url 'products' %}">
-                        <span class="a-dropdown-container"><label for="sort-select" class="a-native-dropdown"></label> <select
-                                name="sort" onchange="this.form.submit()" id="sort-select" autocomplete="off" tabindex="0"
-                                data-action="a-dropdown-select" class="a-native-dropdown a-declarative" aria-pressed="False">
-
-                            <option value="" {% if not request.GET.sort %}selected{% endif %}>Sort by:</option>
-
-                            <option value="featured-rank" {% if request.GET.sort == 'featured-rank' %}selected{% endif %}>Featured</option>
-
-                            <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
-
-                            <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
-
-                            <option value="review-rank" {% if request.GET.sort == 'review-rank' %}selected{% endif %}>Avg. Customer Review</option>
-
-                            <option value="date-desc-rank" {% if request.GET.sort == 'date-desc-rank' %}selected{% endif %}>Newest Arrivals</option>
-
-                            <option value="exact-aware-popularity-rank" {% if request.GET.sort == 'exact-aware-popularity-rank' %}selected{% endif %}>Best Sellers</option>
-
-                        </select>
-                        </span>
-                    </form>
 
                     <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -117,7 +96,7 @@
             >
                 <div class="row">
                     {% for product in products %}
-                    {% include 'product/product_list.html' %}
+                    {% include 'core/product_list.html' %}
                     {% endfor %}
                 </div>
             </div>
@@ -125,7 +104,7 @@
         <!-- End Nav Card -->
     </div>
 </section>
-
+</div>
 {% endblock %}
 </body>
 </html>

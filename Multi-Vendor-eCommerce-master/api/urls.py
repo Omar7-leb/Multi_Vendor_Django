@@ -8,6 +8,8 @@ urlpatterns=[
 
     path('add_customer/', RegisterCustomerView.as_view(), name="register_customer"),
 
+    path('add_vendor/',  RegisterVendorView.as_view(),name="register_vendor"),
+
     path("get_products/", GetProductsView.as_view(), name="get_products"),
     path("get_product_details/<int:pk>/", GetProductDetails.as_view(), name="get_product_details"),
     path("add_product/", AddProduct.as_view(), name="add_product"),
@@ -24,5 +26,8 @@ urlpatterns=[
     path("get_wishlist/<int:customer_id>", GetWishList.as_view(), name="get_wishlist"),
 
     path("get_rooms/<int:pk>", GetRoomsView.as_view(), name="get_rooms"),
-    path("get_messages/<slug:room_name>", GetMessagesView.as_view(), name="get_messages")
+    path("get_messages/<slug:room_name>", GetMessagesView.as_view(), name="get_messages"),
+
+    path("get_order_items/<int:order_id>", GetOrderItems.as_view(), name="get_order_items"),
+    path("get_orders/<int:customer_id>", GetOrders().as_view(), name="get_orders")
 ]

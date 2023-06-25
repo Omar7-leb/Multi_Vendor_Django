@@ -30,6 +30,15 @@ class Vendor(BaseModel):
     def __str__(self):
         return f'{self.vendor_name}'
 
+    @property
+    def location_field_indexing(self):
+        """Location for indexing.
+        Used in Elasticsearch indexing/tests of `geo_distance` native filter.
+        """
+        return {
+            'lat': self.latitude,
+            'lon': self.longitude,
+        }
     class Meta:
         verbose_name_plural = "Vendors"
 

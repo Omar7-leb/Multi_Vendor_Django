@@ -14,6 +14,7 @@ from elasticsearch_dsl import Search
 from elasticsearch_dsl import Q
 
 from .models import Contact
+import requests
 
 
 def home(request):
@@ -30,7 +31,6 @@ def products(request):
     categories = Category.objects.all()
     vendors = Vendor.objects.all()
 
-    products = []
     q = []
 
     client = Elasticsearch()
@@ -40,6 +40,7 @@ def products(request):
     max_price = request.GET.get("max")
     vendor = request.GET.get("vendor")
     available = request.GET.get("available")
+    location = request.GET.get("location")
 
     if category != "None" and category is not None:
         q.append(Q(
@@ -68,28 +69,24 @@ def products(request):
     if available == "on":
         q.append(Q('match', available=True))
 
+    if location:
+        location = city_name_to_lat_long(location)
+        q.append(Q("geo_distance", distance="2km", created_by__coordinates={"lat": location['latitude'],
+                                                                            "lon": location['longitude']}))
+
     if not q:
         q.append(Q('match_all'))
 
     final_q = Q(
         'bool',
-        must= q
+        must=q
     )
     s = Search().using(client).query(final_q)
 
     response = s.execute()
 
-    for hit in response:
-        data = {
-            "id": hit.id,
-            "title": hit.title,
-            "description": hit.description,
-            "created_by": hit.created_by.vendor_name,
-            "image": hit.image,
-            "price": hit.price
-
-        }
-        products.append(data)
+    product = responseToOject(response)
+    print(product)
 
     # sort_option = request.GET.get('sort', None)
     # if sort_option == 'featured-rank':
@@ -105,7 +102,7 @@ def products(request):
     # else:
     #     products = Product.objects.all()
 
-    return render(request, 'core/products.html', {'products': products, 'categories':categories, 'vendors':vendors})
+    return render(request, 'core/products.html', {'products': product, 'categories': categories, 'vendors': vendors})
 
 
 def category_products(request, category_id):
@@ -132,6 +129,7 @@ def category_products(request, category_id):
 
     return render(request, 'core/category.html', context)
 
+
 def search_api(request):
     ''' Search API for autocomplete '''
     queryset = request.GET.get('query')
@@ -156,12 +154,11 @@ def search_api(request):
         raise Http404
 
 
-
 def search(request):
     ''' redirect search result  '''
     queryset = request.GET.get('query')
     if queryset:
-        products = lookup(query = queryset)
+        products = lookup(query=queryset)
         return render(request, 'core/search.html', {'results': products})
     else:
         raise Http404
@@ -186,3 +183,36 @@ def contact(request):
         return redirect('contact')
 
     return render(request, 'core/contact.html')
+
+
+def city_name_to_lat_long(city):
+    api_url = "https://api.api-ninjas.com/v1/geocoding?city={}&country=Lebanon".format(city)
+    response = requests.get(api_url + city, headers={'X-Api-Key': 'dsHO59gahSzrqPVqRbp8RQ==Gpzt4v3istbe4Epc'})
+    if response.status_code == requests.codes.ok:
+        data = response.json()
+        result = filter(lambda x: x['country'] == "LB", data)
+        return list(result)[0]
+    else:
+        print("Error:", response.status_code, response.text)
+
+
+def responseToOject(response):
+    result = []
+    for hit in response:
+        data = {
+            "id": hit.id,
+            "title": hit.title,
+            "description": hit.description,
+            "created_by": hit.created_by.vendor_name,
+            "image": hit.image,
+            "price": hit.price,
+        }
+
+        ws = []
+        for w in hit.wishlist:
+            ws.append(w["id"])
+
+        data["wishlist"] = ws
+        result.append(data)
+
+    return result

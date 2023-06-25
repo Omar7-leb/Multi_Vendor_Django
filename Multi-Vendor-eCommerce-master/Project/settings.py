@@ -80,6 +80,7 @@ LOCAL_APPS = [
     'newsletter.apps.NewsletterConfig',
     'chat.apps.ChatConfig',
     'elasticsearchdjgo.apps.ElasticsearchdjgoConfig',
+    'imageSearch.apps.ImagesearchConfig'
 ]
 
 THIRD_PARTY_APPS = [
@@ -94,6 +95,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'corsheaders',
     'django_elasticsearch_dsl',
+
 
 ]
 

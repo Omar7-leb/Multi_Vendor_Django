@@ -8,7 +8,8 @@ from product.models import Product
 @registry.register_document
 class ProductDocument(Document):
     created_by = fields.ObjectField(properties={
-        'vendor_name': fields.TextField()
+        'vendor_name': fields.TextField(),
+        'coordinates': fields.GeoPointField(attr="location_field_indexing")
     })
 
     category = fields.ObjectField(properties={

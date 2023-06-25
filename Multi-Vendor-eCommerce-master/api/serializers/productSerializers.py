@@ -80,3 +80,17 @@ class WishListSerializer(serializers.ModelSerializer):
                 instance.wishlist.remove(user.id)
 
         return instance
+
+
+class GetOrderItemSerializer(serializers.ModelSerializer):
+    product = ProductSimpleSerializer()
+    class Meta:
+        model = OrderItem
+        fields = ["product", "quantity", "price"]
+
+
+class GetOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["id", "order_created", "total_price"]
+

@@ -2,6 +2,7 @@ from django.shortcuts import render
 import sys
 from os.path import dirname, abspath
 from django.db.models import Q
+from rest_framework.decorators import api_view
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -19,9 +20,10 @@ from .serializers.addProductSerializers import *
 from rest_framework import status
 from customers.models import Customer
 from product.models import Product, Category, CategoryOptions, CategoryProductOptions
-from order.models import  Order
+from order.models import  Order, OrderItem
 from .serializers.messageSerializers import *
 from chat.models import Message
+from .serializers.vendorSerializers import *
 
 # Create your views here.
 class RegisterCustomerView(generics.CreateAPIView):
@@ -90,6 +92,7 @@ class AddOrder(generics.CreateAPIView):
     queryset = Order.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = OrderSerializer
+
 
 
 class AddToWishList(generics.UpdateAPIView):
@@ -163,4 +166,27 @@ class GetMessagesView(generics.ListAPIView):
     def get_queryset(self):
         room_name = self.kwargs["room_name"]
         return Message.objects.filter(room_name=room_name)
+
+class RegisterVendorView(generics.CreateAPIView):
+    queryset = Customer.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = VendorSerializer
+
+
+class GetOrderItems(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = GetOrderItemSerializer
+
+    def get_queryset(self):
+        order_id = self.kwargs["order_id"]
+        return OrderItem.objects.filter(order=order_id)
+
+
+class GetOrders(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = GetOrderSerializer
+
+    def get_queryset(self):
+        customer_id = self.kwargs["customer_id"]
+        return Order.objects.filter(customer=customer_id)
 

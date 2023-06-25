@@ -7,29 +7,20 @@
 
 <body>
   <form>
-
-    <h2>
-        Filters
-    </h2>
-
-    <div class="form-group">
-        <h4>Category</h4>
-        <select name="category">
+      <div style="display:flex; gap:40px; padding-left:40px">
+      <div class="form-group">
+      <h6>Category</h6>
+	  	  <select name="category" style="width:200px">
             <option value="None">Select Category</option>
             {% for category in categories %}
             <option value="{{ category.name }}">{{ category.name }}</option>
             {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <h4>Price</h4>
-        <input  placeholder="min" name="min" type="number"/>
-        <input  placeholder="max" name="max" type="number"/>
-    </div>
+        	</select>
+      </div>
 
-    <div class="form-group">
-        <h4>Vendor</h4>
-        <select name="vendor">
+			    <div class="form-group">
+        <h6>Vendor</h6>
+        <select name="vendor" style="width:200px">
             <option value="None">Select Vendor</option>
             {% for vendor in vendors %}
             <option value="{{ vendor.vendor_name }}">{{ vendor.vendor_name }}</option>
@@ -38,21 +29,35 @@
     </div>
 
 
+    <div class="form-group">
+        <h6>Price</h6>
+        <input  placeholder="min" name="min" type="number" style="width:100px"/>
+
+        <input  placeholder="max" name="max" type="number" style="width:100px"/>
+    </div>
+
+
     <div>
-        <h4>Availability</h4>
+        <h6>Availability</h6>
         <input type="checkbox" name="available" id="flexCheckDefault">
         <label for="flexCheckDefault">
             available
         </label>
     </div>
         <div class="form-group">
-            <h4>Location</h4>
-            <input placeholder="location" type="text"  name="location"/>
+            <h6>Location</h6>
+            <input placeholder="location" type="text"  name="location" style="width:200px"/>
         </div>
 
-        <div>
-            <button type="submit"  class="btn btn-primary">filter </button>
+
+          <div class="form-group">
+            <h6>submit</h6>
+            <button type="submit" style="background-color:blue; width:100px; height:30px;border-radius:10px">filter </button>
+
         </div>
+
+ </div>
+
 </form>
 </body>
 </html>
