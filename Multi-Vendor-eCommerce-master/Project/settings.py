@@ -56,6 +56,7 @@ ALLOWED_HOSTS = ['*']
 
 DEFAULT_APPS = [
     'daphne',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

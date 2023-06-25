@@ -8,19 +8,19 @@ from vendor.models import Vendor
 class Order(models.Model):
     first_name = models.CharField(max_length=50, null=True)
     last_name = models.CharField(max_length=50, null=True)
-    email = models.EmailField(unique=True, null=True)
+    email = models.EmailField(null=True)
     address = models.TextField(null=True, blank=True)
     zipcode = models.CharField(max_length=250, null=True)
     place = models.CharField(max_length=250, null=True)
     phone = models.CharField(max_length=250, null=True)
     paid_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2)
 
-    isPaid = models.BooleanField(default=False)
-    paid_date = models.DateTimeField(null=True)
+    isPaid = models.BooleanField(default=True)
+    paid_date = models.DateTimeField(null=True, blank=True)
 
     isDelivered = models.BooleanField(default=False)
-    delivered_date = models.DateTimeField(null=True)
+    delivered_date = models.DateTimeField(null=True, blank=True)
 
     isCancelled = models.BooleanField(default=False)
     isReturn = models.BooleanField(default=False)
@@ -36,7 +36,7 @@ class Order(models.Model):
         ('archived', _('Archived - not available anymore')),
     )
     status = models.CharField(
-        max_length=200, null=True, blank=True, choices=STATUS)
+        max_length=200, null=True, blank=True, choices=STATUS,default="Processing")
 
     def __str__(self):
         return str(self.id)

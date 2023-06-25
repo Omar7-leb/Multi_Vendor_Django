@@ -1,6 +1,10 @@
-from django.urls import path
+from django.urls import include,path
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
 from .views import *
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'customers', CustomerViewSet)
 
 urlpatterns=[
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -29,5 +33,6 @@ urlpatterns=[
     path("get_messages/<slug:room_name>", GetMessagesView.as_view(), name="get_messages"),
 
     path("get_order_items/<int:order_id>", GetOrderItems.as_view(), name="get_order_items"),
-    path("get_orders/<int:customer_id>", GetOrders().as_view(), name="get_orders")
+    path("get_orders/", OrderItemListCreateView.as_view(), name="get_orders"),
+    path('profile/', include(router.urls))
 ]

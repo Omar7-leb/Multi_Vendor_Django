@@ -1,0 +1,63 @@
+{% extends 'core/_base.html' %}
+{% block body %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  <style>
+  h1 {
+    color: blue;
+  }
+
+  .product-container {
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    gap: 10px; /* Adjust the space between products */
+  }
+
+  .product-card {
+    flex-shrink: 0; /* Prevent product cards from shrinking */
+    width: 250px; /* Adjust the width of each product card */
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  .product-image {
+    max-width: 100%;
+    height: auto;
+    width: 200px; /* Set a fixed width for the product images */
+    height: 200px; /* Set a fixed height for the product images */
+  }
+
+  .product-title {
+    margin-top: 10px;
+  }
+
+  .product-price {
+    font-weight: bold;
+  }
+  </style>
+</head>
+<body>
+<h1>{{ vendor.vendor_name }} Products</h1>
+
+<div class="product-container">
+  {% for product in products %}
+    <div class="product-card">
+      <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-image">
+      <h3 class="product-title">{{ product.title }}</h3>
+      <p class="product-price">${{ product.price }}</p>
+      <a href="{% url 'product_detail' product.category.slug product.slug product.id %}" class="btn btn-primary" style="font-size: 12px; padding: 15px 30px;">See details</a>
+    </div>
+  {% empty %}
+    <p>No products available.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}
+</body>
+</html>

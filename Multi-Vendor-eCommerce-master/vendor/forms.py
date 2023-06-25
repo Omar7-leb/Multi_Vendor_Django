@@ -14,7 +14,7 @@ from .models import Vendor
 
 
 class VendorSignUpForm(UserCreationForm):
-    country = CountryField(blank_label='(Select country)').formfield(null=True)
+    country = CountryField(blank_label='(Select country)').formfield(null=True, widget=forms.Select(attrs={'id': 'id_country'}))
     address = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}))
     mobile_number = forms.CharField(max_length=17)
     vendor_name = forms.CharField(max_length=255)

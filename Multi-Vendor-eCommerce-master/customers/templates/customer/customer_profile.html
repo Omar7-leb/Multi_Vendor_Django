@@ -74,7 +74,7 @@
         <h3 class="font-extrabold md:text-lg">Recent Orders</h3>
         <table class="table has-text-centered">
           <tr class="th">
-          {% for item in orders %}
+          {% for order in orders%}
               <th>Order #</th>
               <th>Status</th>
               <th>Placed On</th>
@@ -82,12 +82,12 @@
               <th>Total</th>
               <th></th>
           </tr>
-       
-                   
+
           <tr>
               <td>{{ forloop.counter }}</td>
-              <td>{{ item.order.status }}</td>
-              <td>{{ item.order.delivered_date }}</td>
+              <td>{{ order.status }}</td>
+              <td>{{ order.delivered_date }}</td>
+              {% for item in order.orderitem_set.all() %}
               <td>
               {% if item.product.image %}
               <figure class="container-fluid image is-96x96">
@@ -100,7 +100,8 @@
               {% endif %}
               </td>
               <td>৳{{ item.product.price }}</td>
-              <td class="pt-5"><a href="{% url 'order:order_details' item.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">MANAGE</a></td>
+              {% endfor %}
+              <td class="pt-5"><a href="{% url 'order:order_details' order.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">MANAGE</a></td>
           </tr>
        
           {% endfor %}

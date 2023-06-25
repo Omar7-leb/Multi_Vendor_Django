@@ -36,13 +36,14 @@
             <form class="row contact_form" method="POST" id="payment-form">
                 {% csrf_token %}
                 {% if form.non_field_errors %}
-                  <div class="notification is-danger">
+                  <div class="notification is-danger ">
                       {{ form.non_field_errors}}
                   </div>
                 {% endif %}
 
                 {% if form.errors %}
-                  <div class="notification is-danger">
+                <div class="col-md-12 form-group ">
+                  <div class="notification is-danger ">
                       <ul>
                           {% for field in form %}
                               {% for error in field.errors %}
@@ -51,34 +52,71 @@
                           {% endfor %}
                       </ul>
                   </div>
+                    </div>
+
                 {% endif %}
 
                 <div class="col-md-6 form-group p_star">
-                  <input type="text" class="form-control" id="first" name="first_name" />
-                  <span class="placeholder" data-placeholder="First name"></span>
-                </div>
-                <div class="col-md-6 form-group p_star">
-                  <input type="text" class="form-control" id="last" name="last_name" />
-                  <span class="placeholder" data-placeholder="Last name"></span>
-                </div>
-                <div class="col-md-6 form-group p_star">
-                  <input type="text" class="form-control" id="email" name="email" placeholder="Email" />
-                </div>
-                <div class="col-md-6 form-group p_star">
-                  <input type="text" class="form-control" id="number" name="phone" placeholder="Phone"/>
-              
-                </div>
-        
-                <div class="col-md-12 form-group p_star">
-                  <input type="text" class="form-control" id="add1" name="address" placeholder="Address"/>
+                  <div class="row">
+                    <label for="first" class="col-md-4 col-form-label">First name:</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" id="first" name="first_name" value="{{ form.first_name.value }}" />
+                    </div>
+                  </div>
                 </div>
 
-                <div class="col-md-12 form-group">
-                  <input type="text" class="form-control" id="zip" name="zipcode" placeholder="Postcode/ZIP" />
+                <div class="col-md-6 form-group p_star">
+                 <div class="row">
+                    <label for="last" class="col-md-4 col-form-label">Last name:</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" id="last" name="last_name" value="{{ form.last_name.value }}"/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 form-group p_star">
+                 <div class="row">
+                    <label for="email" class="col-md-4 col-form-label">Email:</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" id="email" name="email" value="{{ form.email.value }}" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 form-group p_star">
+                    <div class="row">
+                        <label for="number" class="col-md-4 col-form-label">Phone:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="number" name="phone" value="{{ form.phone.value }}"/>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="col-md-6 form-group p_star">
+                    <div class="row">
+                        <label for="add1" class="col-md-4 col-form-label">Address:</label>
+                        <div class="col-md-8">
+                  <input type="text" class="form-control" id="add1" name="address" value="{{ form.address.value }}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 form-group p_star ">
+                    <div class="row">
+                        <label for="zip" class="col-md-4 col-form-label">Postcode/ZIP:</label>
+                        <div class="col-md-8">
+                  <input type="text" class="form-control" id="zip" name="zipcode"  />
+                        </div>
+                    </div>
                 </div>   
                 
-                <div class="col-md-12 form-group">
-                  <input type="text" class="form-control" id="zip" name="place" placeholder="Place" />
+                <div class="col-md-6 form-group p_star">
+                    <div class="row">
+                        <label for="place" class="col-md-4 col-form-label">Place:</label>
+                        <div class="col-md-8">
+                  <input type="text" class="form-control" id="place" name="place"  />
+                        </div>
+                    </div>
                 </div>
 
           </div>
@@ -99,6 +137,11 @@
                     <span class="last">${{ item.total_price}}</span>
                   </a>
                 </li>
+              {% empty %}
+                <li>
+                  <a href="#">No products in the cart</a>
+                </li>
+                {% endfor %}
               </ul>
               <ul class="list list_2">
                 <li>
@@ -107,19 +150,14 @@
                   </a>
                 </li>
               </ul>
-            
-            <h2 class="subtitle">Payment information</h2>
-            {% endfor %}
-            <div id="card-element">
-                <!-- A Stripe Element will be inserted here -->
-            </div>
-              
+
+
             {% if messages %}
                 {% for message in messages %}
                     <div class="notification is-danger">{{ message }}</div>
                 {% endfor %}
             {% endif %}
-            
+
             <div class="field">
                 <div class="control">
                     <input type="submit" class="button is-dark mt-4 is-uppercase" value="Checkout">
@@ -135,39 +173,6 @@
       </div>
     </div>
   </section>
-  <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        var stripe = Stripe('{{ stripe_pub_key }}');
-        var elements = stripe.elements();
 
-        var card = elements.create('card');
-
-        card.mount('#card-element');
-
-        var form = document.getElementById('payment-form');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            stripe.createToken(card).then(function(result) {
-                if (result.error) {
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    stripeTokenHandler(result.token);
-                }
-            });
-        });
-
-        function stripeTokenHandler(token) {
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripe_token');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-
-            form.submit();
-        }
-    </script>
   <!--================End Checkout Area =================-->
 {% endblock body %}
