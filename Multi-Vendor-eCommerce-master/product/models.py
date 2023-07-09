@@ -23,6 +23,9 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
         ordering = ['name']
 
+    def get_slug(self):
+        return self.slug
+
 
 class Product(BaseModel):
     """ Product model """
@@ -77,6 +80,9 @@ class Product(BaseModel):
     class Meta:
         verbose_name_plural = 'Products'
 
+    def get_slug(self):
+        return self.slug
+
 
 class CategoryOptions(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='options')
@@ -92,4 +98,3 @@ class CategoryProductOptions(models.Model):
     category_option = models.ForeignKey(CategoryOptions, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     value = models.TextField(max_length=30)
-

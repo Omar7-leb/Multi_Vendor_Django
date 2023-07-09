@@ -33,6 +33,7 @@ class CustomerSignUpForm(UserCreationForm):
     def save(self):
         user = super().save(commit=False)
         user.is_customer = True
+        user.is_active = False
         user.save()
         customer = Customer.objects.create(user=user)
         customer.email = self.cleaned_data.get('email')
@@ -42,7 +43,7 @@ class CustomerSignUpForm(UserCreationForm):
         customer.phone_number = self.cleaned_data.get('phone_number')
         customer.save()
 
-        return customer
+        return user
 
 
 class CustomerUpdateForm(ModelForm):

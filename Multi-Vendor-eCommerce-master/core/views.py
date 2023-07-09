@@ -208,6 +208,8 @@ def responseToOject(response):
             "created_by": hit.created_by.vendor_name,
             "image": hit.image,
             "price": hit.price,
+            "category_slug": hit.category.slug,
+            "slug": hit.slug
         }
 
         ws = []

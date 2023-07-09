@@ -30,7 +30,6 @@ def customerCancellations(request):
 
 
 @customer_required
-@cache_page(60 * 2)
 def customerOrderHistory(request):
     ''' customer oder purchased order history. '''
     orders = Order.objects.filter(customer=request.user.customer).order_by('-id')
@@ -72,7 +71,6 @@ def checkout(request):
 
 
 @customer_required
-@cache_page(60 * 60)
 def order_complete(request,order_id):
     ''' customer ordered complete details.'''
     for item in Cart(request):

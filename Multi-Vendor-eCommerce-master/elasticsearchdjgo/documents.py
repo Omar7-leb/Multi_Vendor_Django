@@ -7,13 +7,16 @@ from product.models import Product
 
 @registry.register_document
 class ProductDocument(Document):
+    slug = fields.TextField(attr="get_slug")
+
     created_by = fields.ObjectField(properties={
         'vendor_name': fields.TextField(),
         'coordinates': fields.GeoPointField(attr="location_field_indexing")
     })
 
     category = fields.ObjectField(properties={
-        'name':fields.TextField()
+        'name':fields.TextField(),
+        "slug":fields.TextField(attr="get_slug")
     })
 
     wishlist = fields.NestedField(properties={

@@ -87,7 +87,7 @@
               <td>{{ forloop.counter }}</td>
               <td>{{ order.status }}</td>
               <td>{{ order.delivered_date }}</td>
-              {% for item in order.orderitem_set.all() %}
+              {% for item in order.orderitem_set.all %}
               <td>
               {% if item.product.image %}
               <figure class="container-fluid image is-96x96">

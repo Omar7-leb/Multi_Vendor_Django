@@ -28,6 +28,6 @@ def order_checkout(request, first_name, last_name, email, address, zipcode, plac
         OrderItem.objects.create(
             order=order, product=item['product'],customer=customer, vendor=item['product'].created_by,price=item['product'].price, quantity=item['quantity'])
 
-    order.customer.add(customer)
+    order.customer = customer
 
     return order

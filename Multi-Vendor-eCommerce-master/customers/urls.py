@@ -16,5 +16,5 @@ urlpatterns = [
 
 
     path('wishlist/followed/store/', views.customerWishlistAndFollowedStore, name='customer_wishlist_and_followed_store'),
-
+    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
 ]

@@ -25,5 +25,6 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('search/', include('elasticsearchdjgo.urls')),
     path('chat/', include('chat.urls')),
-    path('image_search/', include('imageSearch.urls'))
+    path('image_search/', include('imageSearch.urls')),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

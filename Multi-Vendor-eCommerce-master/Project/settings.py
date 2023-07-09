@@ -63,7 +63,6 @@ DEFAULT_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.humanize',
 ]
@@ -350,3 +349,13 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'clinicapp4321@gmail.com'
+DEFAULT_FROM_EMAIL = 'clinicapp4321@gmail.com'
+SERVER_EMAIL = 'clinicapp4321@gmail.com'
+EMAIL_HOST_PASSWORD = 'pfkhmpizfrhnjinx'
+EMAIL_PORT = 587
