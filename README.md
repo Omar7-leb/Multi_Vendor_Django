@@ -42,7 +42,7 @@ Clients: Online shoppers seeking a diverse range of products from various vendor
 
 ![Screenshot 2024-01-30 191030](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/9ae6c23f-3000-4f35-823e-3a61c4ae65c2)
 
-
+![Screenshot 2024-01-30 191057](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/21f40d02-570e-4dba-89c8-43c549c84498)
 
 
 
