@@ -2,6 +2,9 @@
 
 ![Screenshot 2024-01-30 190956](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/9d879de4-ee21-4e42-a6e1-6f987a045242)
 
+![Screenshot 2024-01-30 191030](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/9ae6c23f-3000-4f35-823e-3a61c4ae65c2)
+
+
 
 
 
