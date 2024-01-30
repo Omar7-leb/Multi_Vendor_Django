@@ -45,4 +45,13 @@ Clients: Online shoppers seeking a diverse range of products from various vendor
 ![Screenshot 2024-01-30 191057](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/21f40d02-570e-4dba-89c8-43c549c84498)
 
 
+![Screenshot 2024-01-30 191152](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/087437cb-25e0-443e-986f-01a465bb5235)
+
+![Screenshot 2024-01-30 191213](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/594582dd-5d29-436c-9944-0dbbe4070d0f)
+
+![Screenshot 2024-01-30 191303](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/fc284811-7d86-4f6e-b530-a0b42bc0c859)
+
+![Screenshot 2024-01-30 191339](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/98f26e2c-fb05-4ea1-9fcf-c1922e819d65)
+
+![Screenshot 2024-01-30 191407](https://github.com/Omar7-leb/Multi_Vendor_Django/assets/125736709/3fabcdcd-40aa-40cb-9d20-d5e282f9d6fe)
 
